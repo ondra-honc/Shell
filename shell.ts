@@ -2,6 +2,7 @@ import * as readline from 'node:readline';
 import { spawn } from 'node:child_process';
 import * as process from 'node:process';
 import fs from 'node:fs';
+import { text } from 'node:stream/consumers';
 
 const rl = readline.createInterface(
     {
@@ -70,6 +71,25 @@ function handleInput(s: string)
         {
             console.error(error);
         }
+        prompt();
+        return;
+    }
+
+    if (command === "echo")
+    {
+        console.log(args);
+        const textToWrite = args[0]!;
+        const file = process.cwd() + "/" + args[2];
+            
+        try
+        {
+            fs.writeFileSync(file, textToWrite);
+
+        } catch(error: any)
+        {
+            console.error(error);
+        }
+
         prompt();
         return;
     }
