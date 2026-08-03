@@ -1,8 +1,9 @@
 import * as readline from 'node:readline';
 import { spawn } from 'node:child_process';
 import * as process from 'node:process';
-import fs from 'node:fs';
-import { text } from 'node:stream/consumers';
+
+import { exit, cd, mkdir, echo } from './commands.js';
+
 
 const rl = readline.createInterface(
     {
@@ -25,73 +26,33 @@ function handleInput(s: string)
 {
     if (!s) 
     {
-    prompt();
-    return;
+        prompt();
+        return;
     }
 
     const args = s.split(/\s+/);
     const command = args.shift()!;
 
-    if (command === "exit")
-    {
-        rl.close();
-        process.exit(0);
-    }
+    switch (command) {
+        case "exit":
+            rl.close();
+            exit();
+            return;
 
-    if (command === "cd")
-    {
-        const targetDir = args[0] || process.env.HOME || "/";
-        try
-        {
-            process.chdir(targetDir);
-        } catch (error: any)
-        {
-            console.log("System can not find the targeted directory");
-        }
-        prompt();
-        return;
-    }
+        case "cd":
+            cd(args[0]);
+            prompt(); 
+            return;
 
-    if (command === "mkdir")
-    {
-        const dirName = args[0]
-        if (!dirName) return;
+        case "mkdir":
+            mkdir(args[0]);
+            prompt(); 
+            return;
 
-        try
-        {
-            const folderName = process.cwd() + "/" + dirName;
-            if (!fs.existsSync(folderName))
-            {
-                fs.mkdirSync(folderName);
-            } else
-            {
-                console.log("A directory with that name already exists");
-            }
-        } catch(error: any)
-        {
-            console.error(error);
-        }
-        prompt();
-        return;
-    }
-
-    if (command === "echo")
-    {
-        console.log(args);
-        const textToWrite = args[0]!;
-        const file = process.cwd() + "/" + args[2];
-            
-        try
-        {
-            fs.writeFileSync(file, textToWrite);
-
-        } catch(error: any)
-        {
-            console.error(error);
-        }
-
-        prompt();
-        return;
+        case "echo":
+            echo(args[0], args[2]);
+            prompt(); 
+            return;
     }
 
     const child = spawn(command, args, 
