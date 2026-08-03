@@ -1,6 +1,7 @@
 import * as readline from 'node:readline';
 import { spawn } from 'node:child_process';
 import * as process from 'node:process';
+import fs from 'node:fs';
 
 const rl = readline.createInterface(
     {
@@ -45,6 +46,29 @@ function handleInput(s: string)
         } catch (error: any)
         {
             console.log("System can not find the targeted directory");
+        }
+        prompt();
+        return;
+    }
+
+    if (command === "mkdir")
+    {
+        const dirName = args[0]
+        if (!dirName) return;
+
+        try
+        {
+            const folderName = process.cwd() + "/" + dirName;
+            if (!fs.existsSync(folderName))
+            {
+                fs.mkdirSync(folderName);
+            } else
+            {
+                console.log("A directory with that name already exists");
+            }
+        } catch(error: any)
+        {
+            console.error(error);
         }
         prompt();
         return;
