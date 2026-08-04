@@ -18,7 +18,7 @@ function createWindow()
         }
     });
 
-    win.loadFile(path.join(process.cwd(), 'GUI/index.html'));
+    win.loadFile(path.join(__dirname, 'index.html'));
 }
 
 app.whenReady().then(createWindow);

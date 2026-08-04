@@ -1,21 +1,34 @@
 {
   "name": "ts-shell",
   "version": "1.0.0",
-  "description": "",
+  "description": "TS-OS CLI",
   "main": "dist/GUI/main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "tsc --build --force && electron ."
+    "start": "tsc --build --force && node -e \"require('fs').copyFileSync('GUI/index.html', 'dist/GUI/index.html'); require('fs').copyFileSync('GUI/style.css', 'dist/GUI/style.css');\" && electron .",
+    "make": "tsc --build --force && node -e \"require('fs').copyFileSync('GUI/index.html', 'dist/GUI/index.html'); require('fs').copyFileSync('GUI/style.css', 'dist/GUI/style.css');\" && electron-forge make",
+    "package": "electron-forge package"
   },
   "keywords": [],
-  "author": "",
+  "author": "Ondřej Honc",
   "license": "MIT",
   "type": "module",
   "devDependencies": {
+    "@electron-forge/cli": "^7.11.2",
+    "@electron-forge/maker-deb": "^7.11.2",
+    "@electron-forge/maker-rpm": "^7.11.2",
+    "@electron-forge/maker-squirrel": "^7.11.2",
+    "@electron-forge/maker-zip": "^7.11.2",
+    "@electron-forge/plugin-auto-unpack-natives": "^7.11.2",
+    "@electron-forge/plugin-fuses": "^7.11.2",
+    "@electron/fuses": "^1.8.0",
     "@types/node": "^26.1.2",
     "electron": "^43.2.0",
     "ts-node": "^10.9.2",
     "tsx": "^4.23.5",
     "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "electron-squirrel-startup": "^1.0.1"
   }
 }
