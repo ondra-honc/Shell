@@ -2,7 +2,7 @@ import * as readline from 'node:readline';
 import { spawn } from 'node:child_process';
 import * as process from 'node:process';
 
-import { exit, cd, mkdir, echo, ls } from './commands.js';
+import { exit, cd, mkdir, echo, ls, touch } from './commands.js';
 
 
 const rl = readline.createInterface(
@@ -62,7 +62,12 @@ function handleInput(s: string)
         case "ls":
             ls();
             prompt();
-            return;       
+            return;   
+            
+        case "touch":
+            touch(args[0]);
+            prompt();
+            return;
     }
 
     const child = spawn(command, args, 

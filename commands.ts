@@ -73,3 +73,8 @@ export function ls()
         console.log(item);
     }
 }
+
+export function touch(file?: string)
+{
+    fs.writeFileSync(process.cwd() + "/" + file, "");
+}
