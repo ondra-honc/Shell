@@ -88,3 +88,9 @@ export function rm(file?: string)
         if (error) console.error(error.message);
     });
 }
+
+export function cp(file1?: string, file2?: string)
+{
+    const pwd = process.cwd() + "/";
+    fs.cpSync(pwd + file1, pwd + file2);
+}
