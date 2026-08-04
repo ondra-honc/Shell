@@ -99,3 +99,19 @@ export function cat(file?: string)
 {
     console.log(fs.readFileSync(process.cwd() + "/" + file).toString('utf8'));
 }
+
+export function grep(text?: string, file?: string)
+{
+    if (!text) return;
+    
+    const source = fs.readFileSync(process.cwd() + "/" + file).toString('utf8');
+    const split = source.split("\n");
+    
+    for (const item of split)
+    {
+        if (item.includes(text))
+        {
+            console.log(`Line (${split.indexOf(item) + 1}): ${item}`);
+        }
+    }
+}
