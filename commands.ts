@@ -1,5 +1,5 @@
 import * as process from 'node:process';
-import fs from 'node:fs';
+import fs, { Utf8Stream } from 'node:fs';
 
 export function exit()
 {
@@ -93,4 +93,9 @@ export function cp(file1?: string, file2?: string)
 {
     const pwd = process.cwd() + "/";
     fs.cpSync(pwd + file1, pwd + file2);
+}
+
+export function cat(file?: string)
+{
+    console.log(fs.readFileSync(process.cwd() + "/" + file).toString('utf8'));
 }
