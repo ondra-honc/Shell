@@ -53,6 +53,8 @@ function handleInput(s: string)
             echo(args[0], args[2]);
             prompt(); 
             return;
+        case "pwd":
+            console.log(process.cwd());
     }
 
     const child = spawn(command, args, 
