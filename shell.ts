@@ -2,7 +2,7 @@ import * as readline from 'node:readline';
 import { spawn } from 'node:child_process';
 import * as process from 'node:process';
 
-import { exit, cd, mkdir, echo } from './commands.js';
+import { exit, cd, mkdir, echo, ls } from './commands.js';
 
 
 const rl = readline.createInterface(
@@ -53,8 +53,16 @@ function handleInput(s: string)
             echo(args[0], args[2]);
             prompt(); 
             return;
+
         case "pwd":
             console.log(process.cwd());
+            prompt();
+            return;
+
+        case "ls":
+            ls();
+            prompt();
+            return;       
     }
 
     const child = spawn(command, args, 

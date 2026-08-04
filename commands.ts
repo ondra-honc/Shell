@@ -14,7 +14,7 @@ export function cd(input?: string)
         process.chdir(targetDir);
     } catch (error: any)
     {
-    console.log("System can not find the targeted directory");
+        console.log("System can not find the targeted directory");
     }
 }
 
@@ -33,9 +33,9 @@ export function mkdir(input?: string)
         {
             console.log("A directory with that name already exists");
         }
-        } catch(error: any)
-        {
-            console.error(error);
+    } catch(error: any)
+    {
+        console.error(error);
     }
 }
 
@@ -63,5 +63,13 @@ export function echo(input?: string, fileName?: string)
     } catch(error: any)
     {
         console.error(error);
+    }
+}
+
+export function ls()
+{
+    for (const item of fs.readdirSync(process.cwd() + "/"))
+    {
+        console.log(item);
     }
 }
