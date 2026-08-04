@@ -2,15 +2,6 @@ import * as process from 'node:process';
 import fs from 'node:fs';
 import * as os from 'node:os';
 
-interface SystemStats
-{
-    cpuUsage: number[];
-    freeMemoryMB: number;
-    totalMemoryMB: number;
-    memoryUsagePercent: number;
-    uptimeHours: number;
-}
-
 export function exit()
 {
     process.exit(0);
