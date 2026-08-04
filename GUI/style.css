@@ -1,0 +1,32 @@
+* {
+    color: white;
+}
+
+body {
+    background-color: black;
+}
+
+.input-line {
+    display: flex;       
+    align-items: center; 
+    gap: 6px;           
+}
+
+#cmd-input {
+    background: transparent; 
+    border: none;          
+    color: inherit;        
+    font-family: inherit;    
+    font-size: inherit;     
+    outline: none;          
+    flex: 1;              
+}
+
+#cmd-input:focus {
+    outline: none;
+}
+
+#output {
+    white-space: pre-wrap;
+    word-break: break-all;
+}
