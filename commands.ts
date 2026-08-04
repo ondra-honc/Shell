@@ -146,16 +146,32 @@ export function grep(text?: string, file?: string)
     }
 }
 
+let lastCpus = os.cpus();
+
 export function top()
 {
-    const cpus = os.cpus();
+    const currentCpus = os.cpus();
+
+    const cpuUsage = currentCpus.map((currentCpu, i) => {
+        const prevCpu = lastCpus[i];
+        if (!prevCpu) return 0;
+
+        const currentTotal = Object.values(currentCpu.times).reduce((acc, tv) => acc + tv, 0);
+        const prevTotal = Object.values(prevCpu.times).reduce((acc, tv) => acc + tv, 0);
+
+        const totalDiff = currentTotal - prevTotal;
+        const idleDiff = currentCpu.times.idle - prevCpu.times.idle;
+
+        return totalDiff > 0 ? Math.round(((totalDiff - idleDiff) / totalDiff) * 100) : 0;
+    });
+
+    lastCpus = currentCpus;
+
     const freeMemory = os.freemem();
     const totalMemory = os.totalmem();
 
-    const cpuUsage = cpus.map((cpu) => {const total = Object.values(cpu.times).reduce((acc, tv) => acc + tv, 0); return Math.round(((total - cpu.times.idle) / total) * 100);});
-
     console.log(`
-    CPU Usage Per Thread (%): ${cpuUsage}
+    CPU Usage Per Thread (%): ${cpuUsage.join(', ')}
     Free Memory (MB): ${Math.round(freeMemory / 1024 / 1024)}
     Total Memory (MB): ${Math.round(totalMemory / 1024 / 1024)}
     Memory Usage (%): ${Math.round(((totalMemory - freeMemory) / totalMemory) * 100)}
