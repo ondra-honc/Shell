@@ -1,5 +1,15 @@
 import * as process from 'node:process';
-import fs, { Utf8Stream } from 'node:fs';
+import fs from 'node:fs';
+import * as os from 'node:os';
+
+interface SystemStats
+{
+    cpuUsage: number[];
+    freeMemoryMB: number;
+    totalMemoryMB: number;
+    memoryUsagePercent: number;
+    uptimeHours: number;
+}
 
 export function exit()
 {
@@ -114,4 +124,21 @@ export function grep(text?: string, file?: string)
             console.log(`Line (${split.indexOf(item) + 1}): ${item}`);
         }
     }
+}
+
+export function top()
+{
+    const cpus = os.cpus();
+    const freeMemory = os.freemem();
+    const totalMemory = os.totalmem();
+
+    const cpuUsage = cpus.map((cpu) => {const total = Object.values(cpu.times).reduce((acc, tv) => acc + tv, 0); return Math.round(((total - cpu.times.idle) / total) * 100);});
+
+    console.log(`
+    CPU Usage Per Thread (%): ${cpuUsage}
+    Free Memory (MB): ${Math.round(freeMemory / 1024 / 1024)}
+    Total Memory (MB): ${Math.round(totalMemory / 1024 / 1024)}
+    Memory Usage (%): ${Math.round(((totalMemory - freeMemory) / totalMemory) * 100)}
+    Uptime (Hours): ${(os.uptime() / 3600).toFixed(2)}
+    `);
 }
