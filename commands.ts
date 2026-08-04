@@ -78,3 +78,13 @@ export function touch(file?: string)
 {
     fs.writeFileSync(process.cwd() + "/" + file, "");
 }
+
+export function rm(file?: string)
+{
+    const filePath = process.cwd() + "/" + file;
+
+    fs.rm(filePath, (error) => 
+    {
+        if (error) console.error(error.message);
+    });
+}
